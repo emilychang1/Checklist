@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import os.log
 
 class MainTableViewController: UITableViewController {
     
     var items = [String]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +29,7 @@ class MainTableViewController: UITableViewController {
 //        }
 //        else {
             // Load the sample data.
+        navigationItem.leftBarButtonItem = editButtonItem
             loadSampleList()
         //}
     }
@@ -51,33 +53,37 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemTableViewCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ItemTableViewCell", for: indexPath) as? ItemTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of ItemTableViewCell.")
+        }
 
-        cell.textLabel?.text = items[indexPath.row]
+        cell.itemLabel.text = items[indexPath.row]
 
         return cell
     }
 
 
-    /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
 
-    /*
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            items.remove(at: indexPath.row)
+            saveList()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+            items.append("hi")
+            saveList()
+            tableView.insertRows(at: [indexPath], with: .fade)
+            
         }    
     }
-    */
 
     /*
     // Override to support rearranging the table view.
@@ -113,6 +119,24 @@ class MainTableViewController: UITableViewController {
          let item3 = "Year 3"
         items += [item1, item2, item3]
 
+    }
+    
+    private func saveList() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(items, toFile: ItemNest.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save meals...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    private func loadList() -> [String]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: ItemNest.ArchiveURL.path) as? [String]
+    }
+    
+    
+    @IBAction func addItem(_ sender: UIBarButtonItem) {
+        
     }
 
 }

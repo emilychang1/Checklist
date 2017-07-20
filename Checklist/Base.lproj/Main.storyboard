@@ -19,36 +19,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemTableViewCell" id="NWz-dB-I6S">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemTableViewCell" id="NWz-dB-I6S" customClass="ItemTableViewCell" customModule="Checklist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NWz-dB-I6S" id="bsn-ae-m1K">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ItemLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0rr-HN-q6V">
-                                            <rect key="frame" x="123" y="0.0" width="76" height="44"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hHs-Co-a5y">
-                                            <rect key="frame" x="54" y="4" width="40" height="36"/>
+                                            <rect key="frame" x="8" y="4" width="40" height="36"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="40" id="c0p-qQ-5TL"/>
+                                                <constraint firstAttribute="width" constant="40" id="crC-om-bPi"/>
                                             </constraints>
                                             <state key="normal" title="Button" image="box.png"/>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ItemLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0rr-HN-q6V">
+                                            <rect key="frame" x="56" y="0.0" width="311" height="44"/>
+                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="0rr-HN-q6V" firstAttribute="leading" secondItem="hHs-Co-a5y" secondAttribute="trailing" constant="29" id="5Z7-im-AN5"/>
-                                        <constraint firstItem="0rr-HN-q6V" firstAttribute="top" secondItem="bsn-ae-m1K" secondAttribute="top" id="IK9-hq-dV5"/>
-                                        <constraint firstItem="0rr-HN-q6V" firstAttribute="centerY" secondItem="hHs-Co-a5y" secondAttribute="centerY" id="bob-uF-5kH"/>
-                                        <constraint firstItem="hHs-Co-a5y" firstAttribute="top" secondItem="bsn-ae-m1K" secondAttribute="topMargin" constant="-4" id="dZL-BP-IYM"/>
-                                        <constraint firstItem="hHs-Co-a5y" firstAttribute="leading" secondItem="bsn-ae-m1K" secondAttribute="leadingMargin" constant="46" id="jgN-tW-V9V"/>
-                                        <constraint firstItem="hHs-Co-a5y" firstAttribute="centerY" secondItem="bsn-ae-m1K" secondAttribute="centerY" id="ymk-ir-omJ"/>
+                                        <constraint firstItem="0rr-HN-q6V" firstAttribute="trailing" secondItem="bsn-ae-m1K" secondAttribute="trailingMargin" id="Chw-ND-XS9"/>
+                                        <constraint firstItem="0rr-HN-q6V" firstAttribute="leading" secondItem="hHs-Co-a5y" secondAttribute="trailing" constant="8" symbolic="YES" id="GED-M0-YcV"/>
+                                        <constraint firstItem="0rr-HN-q6V" firstAttribute="top" secondItem="bsn-ae-m1K" secondAttribute="top" id="HN3-kZ-K9M"/>
+                                        <constraint firstItem="hHs-Co-a5y" firstAttribute="leading" secondItem="bsn-ae-m1K" secondAttribute="leadingMargin" id="PQq-T4-PJ3"/>
+                                        <constraint firstItem="hHs-Co-a5y" firstAttribute="centerY" secondItem="0rr-HN-q6V" secondAttribute="centerY" id="YBu-a1-Uox"/>
+                                        <constraint firstItem="hHs-Co-a5y" firstAttribute="top" secondItem="bsn-ae-m1K" secondAttribute="topMargin" constant="-4" id="gVz-4f-mYH"/>
+                                        <constraint firstItem="hHs-Co-a5y" firstAttribute="centerY" secondItem="bsn-ae-m1K" secondAttribute="centerY" id="xTg-kf-jbM"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="itemLabel" destination="0rr-HN-q6V" id="t9Q-Ry-fZE"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -56,7 +60,13 @@
                             <outlet property="delegate" destination="hOC-6g-Pga" id="UVl-1z-JMf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Your Checklist" id="wMa-NL-Yn0"/>
+                    <navigationItem key="navigationItem" title="Your Checklist" id="wMa-NL-Yn0">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="vV7-Hz-TG0">
+                            <connections>
+                                <action selector="addItem:" destination="hOC-6g-Pga" id="G81-ef-IpV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6dM-en-AhV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
