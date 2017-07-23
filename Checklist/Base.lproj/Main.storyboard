@@ -18,12 +18,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <textField key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add new item here" textAlignment="natural" minimumFontSize="17" id="ryI-81-Sww">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
+                            <connections>
+                                <action selector="addNewItemEnd:" destination="hOC-6g-Pga" eventType="editingDidEndOnExit" id="OGd-3e-1Bx"/>
+                            </connections>
+                        </textField>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemTableViewCell" id="NWz-dB-I6S" customClass="ItemTableViewCell" customModule="Checklist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="58" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NWz-dB-I6S" id="bsn-ae-m1K">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hHs-Co-a5y">
@@ -32,6 +42,9 @@
                                                 <constraint firstAttribute="width" constant="40" id="crC-om-bPi"/>
                                             </constraints>
                                             <state key="normal" title="Button" image="box.png"/>
+                                            <connections>
+                                                <action selector="checkoff:" destination="hOC-6g-Pga" eventType="touchUpInside" id="Eom-HI-oBE"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ItemLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0rr-HN-q6V">
                                             <rect key="frame" x="56" y="0.0" width="311" height="44"/>
@@ -60,13 +73,10 @@
                             <outlet property="delegate" destination="hOC-6g-Pga" id="UVl-1z-JMf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Your Checklist" id="wMa-NL-Yn0">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="vV7-Hz-TG0">
-                            <connections>
-                                <action selector="addItem:" destination="hOC-6g-Pga" id="G81-ef-IpV"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Your Checklist" id="wMa-NL-Yn0"/>
+                    <connections>
+                        <outlet property="newTextField" destination="ryI-81-Sww" id="WS6-OQ-lAr"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6dM-en-AhV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

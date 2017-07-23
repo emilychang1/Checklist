@@ -9,29 +9,35 @@
 import UIKit
 import os.log
 
-class MainTableViewController: UITableViewController {
+class MainTableViewController: UITableViewController, UITextFieldDelegate {
     
     var items = [String]()
+    
+    @IBOutlet weak var newTextField: UITextField!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        newTextField.delegate = self
+        //newTextField.returnKeyType = .return
         
 
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = false
+        
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        //self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-//        if let savedMeals = loadMeals() {
-//            meals += savedMeals
-//        }
-//        else {
-            // Load the sample data.
         navigationItem.leftBarButtonItem = editButtonItem
+        
+        if let savedList = loadList() {
+            items += savedList
+        }
+        else {
+            // Load the sample data.
+        //
             loadSampleList()
-        //}
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -78,9 +84,9 @@ class MainTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-            items.append("hi")
-            saveList()
-            tableView.insertRows(at: [indexPath], with: .fade)
+            //items.append("hi")
+            //saveList()
+            //tableView.insertRows(at: [indexPath], with: .fade)
             
         }    
     }
@@ -135,8 +141,30 @@ class MainTableViewController: UITableViewController {
     }
     
     
-    @IBAction func addItem(_ sender: UIBarButtonItem) {
-        
+    @IBAction func addNewItemEnd(_ sender: UITextField) {
+        print("returned")
+        let newString = sender.text
+        items.append(newString!)
+        saveList()
+        self.tableView.reloadData()
+        newTextField.text = ""
     }
-
+    
+    @IBAction func checkoff(_ sender: UIButton) {
+        //items.remove(at: sender.)
+        let buttonPosition = sender.convert(CGPoint.zero, to: self.tableView)
+        let indexPath = self.tableView.indexPathForRow(at: buttonPosition)
+        items.remove(at: (indexPath?.row)!)
+        saveList()
+        tableView.deleteRows(at: [(indexPath)!], with: .top)
+    }
 }
+
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("heeeello")
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
