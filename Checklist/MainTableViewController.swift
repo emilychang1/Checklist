@@ -11,7 +11,7 @@ import os.log
 
 class MainTableViewController: UITableViewController, UITextFieldDelegate {
     
-    var items = [String]()
+    var items = [ItemNest]()
     
     @IBOutlet weak var newTextField: UITextField!
 
@@ -63,7 +63,7 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
             fatalError("The dequeued cell is not an instance of ItemTableViewCell.")
         }
 
-        cell.itemLabel.text = items[indexPath.row]
+        cell.itemLabel.text = (items[indexPath.row]).name
 
         return cell
     }
@@ -118,12 +118,12 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
     
     func loadSampleList() {
 
-         let item1 = "Year 1"
-        
-         let item2 = "Year 2"
-        
-         let item3 = "Year 3"
-        items += [item1, item2, item3]
+//         let item1 = "Year 1"
+//        
+//         let item2 = "Year 2"
+//        
+//         let item3 = "Year 3"
+//        items += [item1, item2, item3]
 
     }
     
@@ -136,15 +136,14 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    private func loadList() -> [String]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: ItemNest.ArchiveURL.path) as? [String]
+    private func loadList() -> [ItemNest]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: ItemNest.ArchiveURL.path) as? [ItemNest]
     }
     
     
     @IBAction func addNewItemEnd(_ sender: UITextField) {
-        print("returned")
-        let newString = sender.text
-        items.append(newString!)
+        let newItem: ItemNest = ItemNest(name: sender.text!, nest: nil)
+        items.append(newItem)
         saveList()
         self.tableView.reloadData()
         newTextField.text = ""
@@ -162,7 +161,6 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
 
 extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("heeeello")
         textField.resignFirstResponder()
         return true
     }
