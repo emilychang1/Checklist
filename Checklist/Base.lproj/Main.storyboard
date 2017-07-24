@@ -65,6 +65,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="itemLabel" destination="0rr-HN-q6V" id="t9Q-Ry-fZE"/>
+                                    <segue destination="RKm-BV-laQ" kind="show" identifier="toNestedViewController" id="U1Y-mx-Ecj"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -82,6 +83,74 @@
             </objects>
             <point key="canvasLocation" x="280.80000000000001" y="117.39130434782609"/>
         </scene>
+        <!--Nested Item Table View Controller-->
+        <scene sceneID="dPi-sM-J9a">
+            <objects>
+                <tableViewController id="RKm-BV-laQ" customClass="NestedItemTableViewController" customModule="Checklist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Lcr-EA-2w8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <textField key="tableHeaderView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add new item here" textAlignment="natural" minimumFontSize="17" id="ehQ-bo-hRe">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <action selector="addNestedItem:" destination="RKm-BV-laQ" eventType="editingDidEndOnExit" id="L1t-ge-fc1"/>
+                            </connections>
+                        </textField>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="nestedTableViewCell" id="7xb-O1-4Ub" customClass="NestedItemTableViewCell" customModule="Checklist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="58" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7xb-O1-4Ub" id="Ba3-6G-jhD">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7jC-PW-290">
+                                            <rect key="frame" x="8" y="4" width="40" height="36"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="40" id="yNf-io-2z0"/>
+                                            </constraints>
+                                            <state key="normal" title="Button" image="box.png"/>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ItemLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3W-lz-fxj">
+                                            <rect key="frame" x="56" y="0.0" width="311" height="44"/>
+                                            <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Y3W-lz-fxj" firstAttribute="trailing" secondItem="Ba3-6G-jhD" secondAttribute="trailingMargin" id="03D-UL-KEi"/>
+                                        <constraint firstItem="7jC-PW-290" firstAttribute="centerY" secondItem="Ba3-6G-jhD" secondAttribute="centerY" id="Fbx-lp-3KT"/>
+                                        <constraint firstItem="Y3W-lz-fxj" firstAttribute="top" secondItem="Ba3-6G-jhD" secondAttribute="top" id="MAw-hP-jDy"/>
+                                        <constraint firstItem="Y3W-lz-fxj" firstAttribute="leading" secondItem="7jC-PW-290" secondAttribute="trailing" constant="8" symbolic="YES" id="VgQ-dT-06H"/>
+                                        <constraint firstItem="7jC-PW-290" firstAttribute="top" secondItem="Ba3-6G-jhD" secondAttribute="topMargin" constant="-4" id="h6f-9x-6kc"/>
+                                        <constraint firstItem="Y3W-lz-fxj" firstAttribute="centerY" secondItem="7jC-PW-290" secondAttribute="centerY" id="kEp-rV-iaa"/>
+                                        <constraint firstItem="7jC-PW-290" firstAttribute="leading" secondItem="Ba3-6G-jhD" secondAttribute="leadingMargin" id="nXl-r1-4GG"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nestedItemLabel" destination="Y3W-lz-fxj" id="fcC-fe-ObO"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="RKm-BV-laQ" id="lJO-Wf-JVz"/>
+                            <outlet property="delegate" destination="RKm-BV-laQ" id="sFT-Tz-1tR"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="nestedItemText" destination="ehQ-bo-hRe" id="STX-QQ-lhT"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fMe-x0-Chn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1166" y="117"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -98,7 +167,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076" y="135.38230884557723"/>
+            <point key="canvasLocation" x="2023" y="117"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jyr-Y7-0IN">

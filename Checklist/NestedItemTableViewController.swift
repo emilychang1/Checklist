@@ -1,44 +1,35 @@
 //
-//  MainTableViewController.swift
+//  NestedItemTableViewController.swift
 //  Checklist
 //
-//  Created by Emily Chang on 7/18/17.
+//  Created by Emily Chang on 7/23/17.
 //  Copyright © 2017 Emily Chang. All rights reserved.
 //
 
 import UIKit
 import os.log
 
-class MainTableViewController: UITableViewController, UITextFieldDelegate {
+class NestedItemTableViewController: UITableViewController {
     
+    var name = ""
     var items = [ItemNest]()
-    
-    @IBOutlet weak var newTextField: UITextField!
+
+
+    @IBOutlet weak var nestedItemText: UITextField!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        newTextField.delegate = self
-        //newTextField.returnKeyType = .return
-        
 
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = false
         
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         navigationItem.leftBarButtonItem = editButtonItem
         
-        loadSampleList()
-//        if let savedList = loadList() {
-//            items += savedList
-//        }
-//        else {
-//            // Load the sample data.
-//        //
-//            loadSampleList()
-//        }
+        loadSample()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,36 +43,40 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return items.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("printing name")
+        print(name)
+        print(items)
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ItemTableViewCell", for: indexPath) as? ItemTableViewCell  else {
-            fatalError("The dequeued cell is not an instance of ItemTableViewCell.")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "nestedTableViewCell", for: indexPath) as? NestedItemTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of nestedTableViewCell.")
         }
-
-        cell.itemLabel.text = (items[indexPath.row]).name
-
+        print(indexPath.row)
+        print(items[indexPath.row])
+        
+        
+        cell.nestedItemLabel.text = (items[indexPath.row]).name
+        
         return cell
     }
-
-
+    
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             items.remove(at: indexPath.row)
-            saveList()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -89,8 +84,18 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
             //saveList()
             //tableView.insertRows(at: [indexPath], with: .fade)
             
-        }    
+        }
     }
+    
+    func loadSample() {
+        let item1 = ItemNest(name: "year 1", nest: [ItemNest]())
+        let item2 = ItemNest(name: "year 2", nest: [ItemNest]())
+        let item3 = ItemNest(name: "year 3", nest: [ItemNest]())
+        items += [item1, item2, item3]
+    }
+    
+    
+
     
 
     /*
@@ -117,59 +122,13 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let newItem = items[(self.tableView.indexPathForSelectedRow?.row)!]
-        let destinationVC = segue.destination as! NestedItemTableViewController
-        destinationVC.items = newItem.nest
-        destinationVC.name = newItem.name
-    }
-    
-    func loadSampleList() {
-        let item1 = ItemNest(name: "year 1", nest: [ItemNest]())
-        let item2 = ItemNest(name: "year 2", nest: [item1])
-        let item3 = ItemNest(name: "year 3", nest: [ItemNest]())
-        items += [item2, item3]
-
-    }
-    
-    private func saveList() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(items, toFile: ItemNest.ArchiveURL.path)
-        if isSuccessfulSave {
-            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
-        } else {
-            os_log("Failed to save meals...", log: OSLog.default, type: .error)
-        }
-    }
-    
-    private func loadList() -> [ItemNest]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: ItemNest.ArchiveURL.path) as? [ItemNest]
-    }
-    
-    
-    @IBAction func addNewItemEnd(_ sender: UITextField) {
+    @IBAction func addNestedItem(_ sender: UITextField) {
         let newItem: ItemNest = ItemNest(name: sender.text!, nest: [ItemNest]())
         items.append(newItem)
-        saveList()
         self.tableView.reloadData()
-        newTextField.text = ""
+        nestedItemText.text = ""
     }
-    
-    @IBAction func checkoff(_ sender: UIButton) {
-        //items.remove(at: sender.)
-        let buttonPosition = sender.convert(CGPoint.zero, to: self.tableView)
-        let indexPath = self.tableView.indexPathForRow(at: buttonPosition)
-        items.remove(at: (indexPath?.row)!)
-        saveList()
-        tableView.deleteRows(at: [(indexPath)!], with: .top)
-    }
-    
-}
 
-extension ViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
+
 }
 
