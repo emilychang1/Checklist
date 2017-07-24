@@ -28,17 +28,16 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        navigationItem.leftBarButtonItem = editButtonItem
+        navigationItem.rightBarButtonItem = editButtonItem
         
-        loadSampleList()
-//        if let savedList = loadList() {
-//            items += savedList
-//        }
-//        else {
-//            // Load the sample data.
-//        //
-//            loadSampleList()
-//        }
+        if let savedList = loadList() {
+            items += savedList
+        }
+        else {
+            // Load the sample data.
+        //
+            loadSampleList()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -133,7 +132,7 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
 
     }
     
-    private func saveList() {
+    func saveList() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(items, toFile: ItemNest.ArchiveURL.path)
         if isSuccessfulSave {
             os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
@@ -142,7 +141,7 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    private func loadList() -> [ItemNest]? {
+    func loadList() -> [ItemNest]? {
         return NSKeyedUnarchiver.unarchiveObject(withFile: ItemNest.ArchiveURL.path) as? [ItemNest]
     }
     

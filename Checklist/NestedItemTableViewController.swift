@@ -26,8 +26,8 @@ class NestedItemTableViewController: UITableViewController {
         
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        navigationItem.leftBarButtonItem = editButtonItem
-        
+        navigationItem.rightBarButtonItem = editButtonItem
+        //loadList()
         loadSample()
 
     }
@@ -127,6 +127,21 @@ class NestedItemTableViewController: UITableViewController {
         items.append(newItem)
         self.tableView.reloadData()
         nestedItemText.text = ""
+        //saveList()
+        
+    }
+    
+    func saveList() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(items, toFile: ItemNest.ArchiveURL.path)
+        if isSuccessfulSave {
+            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
+        } else {
+            os_log("Failed to save meals...", log: OSLog.default, type: .error)
+        }
+    }
+    
+    func loadList() -> [ItemNest]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: ItemNest.ArchiveURL.path) as? [ItemNest]
     }
 
 
