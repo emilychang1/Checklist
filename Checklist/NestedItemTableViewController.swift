@@ -9,13 +9,23 @@
 import UIKit
 import os.log
 
+protocol MyProtocol {
+    func setResultOfBusinessLogic(updated: ItemNest)
+}
+
 class NestedItemTableViewController: UITableViewController {
     
+    var delegate:MyProtocol?
+    
+    var item = ItemNest(name: "", nest: [ItemNest](), parent: nil)
     var name = ""
     var items = [ItemNest]()
-
+    var mainItemList = [ItemNest]()
+    
+    
 
     @IBOutlet weak var nestedItemText: UITextField!
+    
 
     
     override func viewDidLoad() {
@@ -27,8 +37,11 @@ class NestedItemTableViewController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         navigationItem.rightBarButtonItem = editButtonItem
-        //loadList()
-        loadSample()
+        if items.count == 0 {
+            print("other")
+            loadSample()
+        }
+        //loadSample()
 
     }
 
@@ -50,15 +63,12 @@ class NestedItemTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("printing name")
-        print(name)
-        print(items)
+
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "nestedTableViewCell", for: indexPath) as? NestedItemTableViewCell  else {
             fatalError("The dequeued cell is not an instance of nestedTableViewCell.")
         }
-        print(indexPath.row)
-        print(items[indexPath.row])
+
         
         
         cell.nestedItemLabel.text = (items[indexPath.row]).name
@@ -88,9 +98,9 @@ class NestedItemTableViewController: UITableViewController {
     }
     
     func loadSample() {
-        let item1 = ItemNest(name: "year 1", nest: [ItemNest]())
-        let item2 = ItemNest(name: "year 2", nest: [ItemNest]())
-        let item3 = ItemNest(name: "year 3", nest: [ItemNest]())
+        let item1 = ItemNest(name: "year 1", nest: [ItemNest](), parent: nil)
+        let item2 = ItemNest(name: "year 2", nest: [ItemNest](), parent: nil)
+        let item3 = ItemNest(name: "year 3", nest: [ItemNest](), parent: nil)
         items += [item1, item2, item3]
     }
     
@@ -123,23 +133,27 @@ class NestedItemTableViewController: UITableViewController {
     }
     */
     @IBAction func addNestedItem(_ sender: UITextField) {
-        let newItem: ItemNest = ItemNest(name: sender.text!, nest: [ItemNest]())
+        let newItem: ItemNest = ItemNest(name: sender.text!, nest: [ItemNest](), parent: nil)
         items.append(newItem)
         self.tableView.reloadData()
         nestedItemText.text = ""
+        
+        delegate?.setResultOfBusinessLogic(updated: ItemNest(name: name, nest: items, parent: nil))
+        //mainItemList.
         //saveList()
+        //MainTableViewController.items = self.items
         
     }
     
-    func saveList() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(items, toFile: ItemNest.ArchiveURL.path)
-        if isSuccessfulSave {
-            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
-        } else {
-            os_log("Failed to save meals...", log: OSLog.default, type: .error)
-        }
-    }
-    
+//    func saveList() {
+//        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(items, toFile: ItemNest.ArchiveURL.path)
+//        if isSuccessfulSave {
+//            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
+//        } else {
+//            os_log("Failed to save meals...", log: OSLog.default, type: .error)
+//        }
+//    }
+//    
     func loadList() -> [ItemNest]? {
         return NSKeyedUnarchiver.unarchiveObject(withFile: ItemNest.ArchiveURL.path) as? [ItemNest]
     }

@@ -17,6 +17,7 @@ class ItemNest: NSObject, NSCoding {
     
     var name: String
     var nest: [ItemNest] = [ItemNest]()
+    var parent: ItemNest?
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -26,12 +27,14 @@ class ItemNest: NSObject, NSCoding {
         static let name = "name"
         //static let completed = "completed"
         static let nest = "nest"
+        static let parent = "parent"
     }
     
-    init(name: String, nest: [ItemNest]) {
+    init(name: String, nest: [ItemNest], parent: ItemNest?) {
         self.name = name
         //self.completed = completed
         self.nest = nest
+        self.parent = parent
     }
     
     //MARK: NSCoding
@@ -53,9 +56,10 @@ class ItemNest: NSObject, NSCoding {
         // Because photo is an optional property of Meal, just use conditional cast.
         //let completed = aDecoder.decodeBool(forKey: PropertyKey.completed)
         let nest = aDecoder.decodeObject(forKey: PropertyKey.nest)
+        let parent = aDecoder.decodeObject(forKey: PropertyKey.parent)
 
         
         // Must call designated initializer.
-        self.init(name: name, nest: nest as! [ItemNest])
+        self.init(name: name, nest: nest as! [ItemNest], parent: parent as? ItemNest)
     }
 }

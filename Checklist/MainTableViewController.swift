@@ -9,12 +9,19 @@
 import UIKit
 import os.log
 
-class MainTableViewController: UITableViewController, UITextFieldDelegate {
+class MainTableViewController: UITableViewController, UITextFieldDelegate, MyProtocol {
     
     var items = [ItemNest]()
     
+    var valueSentFromSecondViewController:String?
+    
     @IBOutlet weak var newTextField: UITextField!
 
+    override func viewDidAppear(_ animated: Bool) {
+        if items.count > 0{
+            self.tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,12 +129,20 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         let destinationVC = segue.destination as! NestedItemTableViewController
         destinationVC.items = newItem.nest
         destinationVC.name = newItem.name
+        destinationVC.item = newItem
+        
+        destinationVC.delegate = self
+        
+        //destinationVC.parentItem =
+        //change: acounts only for two levels. need to implement parentItem property which gets updated everytime child list changes
+
+        //self.navigationController?.pushViewController(destinationVC, animated: true)
     }
     
     func loadSampleList() {
-        let item1 = ItemNest(name: "year 1", nest: [ItemNest]())
-        let item2 = ItemNest(name: "year 2", nest: [item1])
-        let item3 = ItemNest(name: "year 3", nest: [ItemNest]())
+        let item1 = ItemNest(name: "year 1", nest: [ItemNest](), parent: nil)
+        let item2 = ItemNest(name: "year 2", nest: [item1], parent: nil)
+        let item3 = ItemNest(name: "year 3", nest: [ItemNest](), parent: nil)
         items += [item2, item3]
 
     }
@@ -145,9 +160,14 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         return NSKeyedUnarchiver.unarchiveObject(withFile: ItemNest.ArchiveURL.path) as? [ItemNest]
     }
     
+    func setResultOfBusinessLogic(updated: ItemNest) {
+        print("sent")
+        print(updated)
+        self.items.append(updated)
+    }
     
     @IBAction func addNewItemEnd(_ sender: UITextField) {
-        let newItem: ItemNest = ItemNest(name: sender.text!, nest: [ItemNest]())
+        let newItem: ItemNest = ItemNest(name: sender.text!, nest: [ItemNest](), parent: nil)
         items.append(newItem)
         saveList()
         self.tableView.reloadData()
