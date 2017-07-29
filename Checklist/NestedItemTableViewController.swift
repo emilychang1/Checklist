@@ -37,11 +37,11 @@ class NestedItemTableViewController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         navigationItem.rightBarButtonItem = editButtonItem
-        if items.count == 0 {
-            print("other")
-            loadSample()
-        }
-        //loadSample()
+//        if items.count == 0 {
+//            print("other")
+//            loadSample()
+//        }
+//        //loadSample()
 
     }
 

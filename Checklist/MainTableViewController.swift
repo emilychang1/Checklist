@@ -162,15 +162,36 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate, MyPro
     
     func setResultOfBusinessLogic(updated: ItemNest) {
         print("sent")
-        print(updated)
-        self.items.append(updated)
+        print(items.count)
+        var count = 0
+        for item in items{
+            print(item.name)
+            print(updated.name)
+            print("count \(count)")
+            if item.name == updated.name {
+                items.remove(at: count)
+                break
+            }
+            count += 1
+        }
+        self.items.insert(updated, at: count)
+        saveList()
     }
     
     @IBAction func addNewItemEnd(_ sender: UITextField) {
         let newItem: ItemNest = ItemNest(name: sender.text!, nest: [ItemNest](), parent: nil)
-        items.append(newItem)
-        saveList()
-        self.tableView.reloadData()
+        var itemInList = 0
+        for item in items {
+            if item.name == newItem.name {
+                itemInList = 1
+            }
+        }
+        if itemInList == 0 {
+            items.append(newItem)
+            saveList()
+            self.tableView.reloadData()
+            
+        }
         newTextField.text = ""
     }
     
